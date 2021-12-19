@@ -38,7 +38,12 @@ router.post("/signup", async (req, res, next) => {
     return next(error);
   }
 
-  res.send(`Hi, ${name}. Your account was successfully created.`);
+  res
+    .status(200)
+    .json({
+      message: `Hi ${name}, your account was successfully created.`,
+      user: newUser.toObject({ getters: true }),
+    });
 });
 
 router.post("/login", async (req, res, next) => {
@@ -67,7 +72,12 @@ router.post("/login", async (req, res, next) => {
     return next(error);
   }
 
-  res.send(`Hi, ${existingUser.name}. You have successfully logged in.`);
+  res
+    .status(200)
+    .json({
+      message: `Hi ${existingUser.name}, your have successfully logged in.`,
+      user: existingUser.toObject({ getters: true }),
+    });
 });
 
 router.get("/users", async (req, res, next) => {
