@@ -1,0 +1,22 @@
+{
+  "name": "is-project",
+  "version": "1.0.0",
+  "description": "IS Lab Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chitransh Varun Samay Divyanshu",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.2",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7",
+    "socket.io": "^4.4.0",
+    "uuid": "^8.3.2"
+  }
+}
