@@ -29,7 +29,6 @@ app.use((req, res, next) => {
 
 app.use(function (req, res, next) {
   req.io = io;
-  console.log(req.io);
   next();
 });
 
