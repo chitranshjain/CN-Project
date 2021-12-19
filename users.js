@@ -5,7 +5,7 @@ const HttpError = require("./error");
 const router = express.Router();
 const Schema = mongoose.Schema;
 
-const {Encrypt, Decrypt} = require("./encryption");
+const { Encrypt, Decrypt } = require("./encryption");
 
 const userSchema = new Schema({
   name: {
@@ -68,6 +68,26 @@ router.post("/login", async (req, res, next) => {
   }
 
   res.send(`Hi, ${existingUser.name}. You have successfully logged in.`);
+});
+
+router.get("/users", async (req, res, next) => {
+  let users;
+
+  try {
+    users = await User.find();
+  } catch (err) {
+    const error = new HttpError("Could not fetch other users", 500);
+    return next(error);
+  }
+
+  if (!users) {
+    const error = new HttpError("Could not find other users", 404);
+    return next(error);
+  }
+
+  res
+    .status(200)
+    .json({ users: users.map((user) => user.toObject({ getters: true })) });
 });
 
 module.exports = router;
