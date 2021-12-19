@@ -8,8 +8,12 @@ const chatRoutes = require("./chat");
 
 // Initializing express app and other features
 const app = express();
-dotenv.config();
+const port = process.env.PORT || 8080;
+const server = app.listen(port, () => console.log(`Server running on port ${port} 🔥`))
+const io = require('socket.io').listen(server);
 
+
+dotenv.config();
 app.use(bodyParser.json());
 
 // CORS Rules Modification
@@ -23,12 +27,15 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(function (req, res, next) {
+  req.io = io;
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.use("/api", userRoutes);
-app.use("/api", chatRoutes);
 
 mongoose
   .connect(process.env.MONGODB, {
@@ -36,10 +43,13 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => {
-    app.listen(process.env.PORT || 5000, () => {
-      console.log("Server is up and running on port " + process.env.PORT || 5000);
-    });
   })
   .catch((err) => {
     console.log("An error occurred : " + err.message);
   });
+
+app.use("/api", userRoutes);
+app.use("/api", chatRoutes);
+app.use('', (req, res) => {
+  res.send('api router not found');
+})

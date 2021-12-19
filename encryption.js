@@ -14,7 +14,7 @@ function Encrypt(plaintext) {
   for (line = 0; line < key - 1; line++) {
     let skip = 2 * (key - line - 1);
     let j = 0;
-    for (let i = line; i < plaintext.length; ) {
+    for (let i = line; i < plaintext.length;) {
       ciphertext += plaintext.charAt(i);
       if (line == 0 || j % 2 == 0) {
         i += skip;
@@ -47,7 +47,7 @@ function Decrypt(ciphertext) {
   for (line = 0; line < key - 1; line++) {
     let skip = 2 * (key - line - 1);
     let j = 0;
-    for (i = line; i < ciphertext.length; ) {
+    for (i = line; i < ciphertext.length;) {
       pt[i] = ciphertext.charAt(k++);
       if (line == 0 || j % 2 == 0) i += skip;
       else i += 2 * (key - 1) - skip;
