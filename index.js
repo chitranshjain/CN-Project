@@ -30,10 +30,10 @@ app.use((req, res, next) => {
 
 app.use(cors('dev'))
 
-app.use(function (req, res, next) {
-  req.io = io;
-  next();
-});
+// app.use(function (req, res, next) {
+//   req.io = io;
+//   next();
+// });
 
 app.get("/", (req, res) => {
   res.send("Hello");
