@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
-const cors = require('cors')
 
 const userRoutes = require("./users");
 const chatRoutes = require("./chat");
@@ -27,8 +26,6 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
 });
-
-app.use(cors('dev'))
 
 // app.use(function (req, res, next) {
 //   req.io = io;
