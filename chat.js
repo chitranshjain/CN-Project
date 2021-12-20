@@ -84,34 +84,34 @@ router.get("/chat/:senderId/:receiverId", async (req, res, next) => {
   }
 
   if (existingChatOne) {
-    console.log("Chat exists");
+    console.log("Chat exists for " + senderId + " " + receiverId);
     let encryptedMessages = existingChatOne.messages;
-    let messages = encryptedMessages.map((message) => {
-      const decryptedMessage = Decrypt(message.message);
-      return {
-        sender: message.sender,
-        receiver: message.receiver,
-        message: decryptedMessage,
-        _id: message._id,
-      };
-    });
-    existingChatOne.messages = messages;
+    // let messages = encryptedMessages.map((message) => {
+    //   const decryptedMessage = Decrypt(message.message);
+    //   return {
+    //     sender: message.sender,
+    //     receiver: message.receiver,
+    //     message: decryptedMessage,
+    //     _id: message._id,
+    //   };
+    // });
+    existingChatOne.messages = encryptedMessages;
     res.status(200).json({ chat: existingChatOne });
   }
 
   if (existingChatTwo) {
     console.log("Chat exists two");
     let encryptedMessages = existingChatTwo.messages;
-    let messages = encryptedMessages.map((message) => {
-      const decryptedMessage = Decrypt(message.message);
-      return {
-        sender: message.sender,
-        receiver: message.receiver,
-        message: decryptedMessage,
-        _id: message._id,
-      };
-    });
-    existingChatTwo.messages = messages;
+    // let messages = encryptedMessages.map((message) => {
+    //   const decryptedMessage = Decrypt(message.message);
+    //   return {
+    //     sender: message.sender,
+    //     receiver: message.receiver,
+    //     message: decryptedMessage,
+    //     _id: message._id,
+    //   };
+    // });
+    existingChatTwo.messages = encryptedMessages;
     res.status(200).json({ chat: existingChatTwo });
   }
 });
@@ -134,9 +134,19 @@ router.post("/chat/addMessage/:chatId", async (req, res, next) => {
     return next(error);
   }
 
-  chat.messages.push({ sender, receiver, message: Encrypt(message) });
+  console.log("Chat found");
+  console.log(chat);
 
-  chat.save();
+  chat.messages.push({ sender, receiver, message: message });
+
+  try {
+    await chat.save();
+  } catch (error) {
+    const err = new HttpError("Error saving chat", 300);
+    return next(err);
+  }
+
+  console.log("Chat saved");
 
   res.status(200).json({ message: "Message added successfully" });
 });
